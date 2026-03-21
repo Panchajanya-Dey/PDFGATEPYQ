@@ -3,9 +3,9 @@ import json
 import os
 
 # Paths (adjust if needed)
-ANS_FILE = "../uploads/answers.txt"   # your parsed answer file
-IMG_DIR = "../uploads/images"
-OUTPUT_FILE = "../uploads/quiz.json"
+ANS_FILE = "./uploads/answers.txt"   # your parsed answer file
+IMG_DIR = "./uploads/images"
+OUTPUT_FILE = "./uploads/quiz.json"
 
 
 def parse_answer(row):

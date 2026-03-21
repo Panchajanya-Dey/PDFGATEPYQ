@@ -64,7 +64,7 @@ def split_questions_from_pdf(pdf_path, out_dir=None, zoom=2.0, padding_pts=4.0):
     if out_dir is None:
         # base = os.path.splitext(os.path.basename(pdf_path))[0]
         # out_dir = os.path.join(os.path.dirname(pdf_path), f"{base}_questions")
-        out_dir = "../uploads/images"
+        out_dir = "./uploads/images"
     ensure_dir(out_dir)
 
     mat = fitz.Matrix(zoom, zoom)
