@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-multipart
+pillow
+pdf2image
+pytesseract   # if OCR used
+opencv-python # optional
