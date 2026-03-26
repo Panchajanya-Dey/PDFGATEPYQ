@@ -162,16 +162,41 @@
                         <button id="startCustomExamBtn" class="btn-start custom-exam-btn">Start Custom Exam ✨</button>
                     </div>
 
-                    <!-- Upload Custom JSON -->
+                    <!-- JSON Upload (unchanged but renamed IDs for clarity) -->
                     <div class="custom-exam-builder custom-exam-builder--centered">
                         <h3 class="section-heading">📄 Upload Custom JSON</h3>
-                        <p class="section-desc">Have your own exam file? Upload it here.</p>
+                        <p class="section-desc">Have your own exam json file? Upload it here.</p>
+
                         <div class="file-input-wrapper">
-                            <input type="file" id="fileInput" class="file-input" accept=".json">
-                            <label for="fileInput" class="file-label">Choose JSON File</label>
-                            <div id="fileName" class="file-name">No file selected</div>
+                            <input type="file" id="jsonFileInput" class="file-input" accept=".json">
+                            <label for="jsonFileInput" class="file-label">Choose JSON File</label>
+                            <div id="jsonFileName" class="file-name">No file selected</div>
                         </div>
-                        <button id="startExam" class="btn-start" disabled>Start Exam</button>
+
+                        <button id="startJsonExam" class="btn-start" disabled>Start Exam</button>
+                    </div>
+
+
+                    <!-- PDF Upload (FIXED) -->
+                    <div class="custom-exam-builder custom-exam-builder--centered">
+                        <h3 class="section-heading">📄 Upload Custom PDF</h3>
+                        <p class="section-desc">Upload question PDF + answer key PDF</p>
+
+                        <!-- Question PDF -->
+                        <div class="file-input-wrapper">
+                            <input type="file" id="questionPdfInput" class="file-input" accept=".pdf">
+                            <label for="questionPdfInput" class="file-label">Choose Question PDF</label>
+                            <div id="questionPdfName" class="file-name">No file selected</div>
+                        </div>
+
+                        <!-- Answer PDF -->
+                        <div class="file-input-wrapper">
+                            <input type="file" id="answerPdfInput" class="file-input" accept=".pdf">
+                            <label for="answerPdfInput" class="file-label">Choose Answer PDF</label>
+                            <div id="answerPdfName" class="file-name">No file selected</div>
+                        </div>
+
+                        <button id="startPdfExam" class="btn-start" disabled>Start Exam</button>
                     </div>
                 </div>
             </div>

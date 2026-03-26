@@ -167,8 +167,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 startExam();
             } else {
                 // Allow user to start it manually
-                document.getElementById('startExam').disabled = false;
-                document.getElementById('fileName').textContent = examData.title;
+                document.getElementById('startJsonExam').disabled = false;
+                // document.getElementById('startExam').disabled = false;
+                document.getElementById('jsonFileName').textContent = examData.title;
+                // document.getElementById('fileName').textContent = examData.title;
             }
         } catch (e) {
             console.warn('Could not load retry exam data:', e);
@@ -179,22 +181,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listeners
 
-    // Upload functionality
-    const fileInput = document.getElementById('fileInput');
-    if (fileInput) {
+    // Upload functionality for json files
+    
+    const fileInput = document.getElementById('jsonFileInput');
+    const startJsonBtn = document.getElementById('startJsonExam');
+
+    if (fileInput && startJsonBtn) {
         fileInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
-                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('jsonFileName').textContent = file.name;
+
                 const reader = new FileReader();
                 reader.onload = function (event) {
                     try {
                         examData = JSON.parse(event.target.result);
-                        document.getElementById('startExam').disabled = false;
+                        startJsonBtn.disabled = false;
 
-                        // Validate and normalize data
                         if (!examData.sections) {
-                            // Convert old format to new format
                             examData = {
                                 title: examData.title || "Exam",
                                 duration: examData.duration || 180,
@@ -203,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     questions: examData.data.map((q, i) => ({
                                         id: i + 1,
                                         question: q.question,
-                                        type: q.type || "single", // Default to single
+                                        type: q.type || "single",
                                         options: q.options,
                                         correct_answer: q.correct_answer,
                                         marks: q.marks || 1,
@@ -213,19 +217,188 @@ document.addEventListener('DOMContentLoaded', () => {
                             };
                         }
 
-                        shuffleExamData(); // Shuffle on new upload!
+                        shuffleExamData();
                         initializeQuestionStates();
+
                     } catch (error) {
-                        alert('Invalid JSON file. Please check the format.');
-                        document.getElementById('startExam').disabled = true;
+                        alert('Invalid JSON file.');
+                        startJsonBtn.disabled = true;
                     }
                 };
+
                 reader.readAsText(file);
             }
         });
+
+        startJsonBtn.addEventListener('click', function () {
+            if (window.enterFullScreen) window.enterFullScreen();
+            toggleHomeView(false);
+            document.getElementById('examSection').style.display = 'flex';
+            startExam();
+        });
     }
 
-    document.getElementById('startExam').addEventListener('click', function () {
+
+    // const fileInput = document.getElementById('fileInput');
+    // if (fileInput) {
+    //     fileInput.addEventListener('change', function (e) {
+    //         const file = e.target.files[0];
+    //         if (file) {
+    //             document.getElementById('fileName').textContent = file.name;
+    //             const reader = new FileReader();
+    //             reader.onload = function (event) {
+    //                 try {
+    //                     examData = JSON.parse(event.target.result);
+    //                     document.getElementById('startExam').disabled = false;
+
+    //                     // Validate and normalize data
+    //                     if (!examData.sections) {
+    //                         // Convert old format to new format
+    //                         examData = {
+    //                             title: examData.title || "Exam",
+    //                             duration: examData.duration || 180,
+    //                             sections: [{
+    //                                 name: "Main Section",
+    //                                 questions: examData.data.map((q, i) => ({
+    //                                     id: i + 1,
+    //                                     question: q.question,
+    //                                     type: q.type || "single", // Default to single
+    //                                     options: q.options,
+    //                                     correct_answer: q.correct_answer,
+    //                                     marks: q.marks || 1,
+    //                                     negative_marks: q.negative_marks || 0.33
+    //                                 }))
+    //                             }]
+    //                         };
+    //                     }
+
+    //                     shuffleExamData(); // Shuffle on new upload!
+    //                     initializeQuestionStates();
+    //                 } catch (error) {
+    //                     alert('Invalid JSON file. Please check the format.');
+    //                     document.getElementById('startExam').disabled = true;
+    //                 }
+    //             };
+    //             reader.readAsText(file);
+    //         }
+    //     });
+    // }
+
+    // ================================
+    // PDF Upload Functionality (NEW)
+    // ================================
+
+    const qPdfInput = document.getElementById('questionPdfInput');
+    const aPdfInput = document.getElementById('answerPdfInput');
+    const startPdfBtn = document.getElementById('startPdfExam');
+
+    if (qPdfInput && aPdfInput && startPdfBtn) {
+
+        qPdfInput.addEventListener('change', updatePdfUI);
+        aPdfInput.addEventListener('change', updatePdfUI);
+
+        function updatePdfUI() {
+            document.getElementById('questionPdfName').textContent =
+                qPdfInput.files[0]?.name || "No file selected";
+
+            document.getElementById('answerPdfName').textContent =
+                aPdfInput.files[0]?.name || "No file selected";
+
+            if (qPdfInput.files.length && aPdfInput.files.length) {
+                startPdfBtn.disabled = false;
+            }
+        }
+
+        startPdfBtn.addEventListener('click', async () => {
+            const formData = new FormData();
+            formData.append("question_pdf", qPdfInput.files[0]);
+            formData.append("answer_pdf", aPdfInput.files[0]);
+
+            try {
+                startPdfBtn.innerText = "Processing...";
+                startPdfBtn.disabled = true;
+
+                // ===== ⚠️ DEPLOYMENT: CHANGE API URL =====
+                // Local development uses localhost backend.
+                // Replace with your deployed backend URL before going live.
+                const API_BASE_URL = "http://localhost:8000";
+
+                const res = await fetch(`${API_BASE_URL}/upload`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await res.json();
+                console.log("data:", data)
+                
+
+                // Handle backend errors
+                if (data.error) {
+                    console.log("data error")
+                    throw new Error(data.error);
+                }
+
+                // Inject into SAME pipeline as JSON upload
+                examData = data;
+                
+                // Normalize format (same as JSON)
+                if (!examData.sections) {
+                    examData = {
+                        title: examData.title || "Exam",
+                        duration: examData.duration || 180,
+                        sections: [{
+                            name: "Main Section",
+                            questions: examData.map((q, i) => ({
+                                id: i + 1,
+                                question: `<img src="${API_BASE_URL}${q.questionImage}" style="max-width:100%;">`,
+                                type: convertType(q.type),
+                                options: q.options || ["A", "B", "C", "D"],
+                                correct_answer: q.answer || q.range,
+                                marks: q.marks || 1,
+                                negative_marks: q.negative_marks || 0.33
+                            }))
+                        }]
+                    };
+                }
+
+                // SAME pipeline as JSON (only once!)
+                shuffleExamData();
+                initializeQuestionStates();
+
+                // Enable main Start Exam button
+                // document.getElementById('startExam').disabled = false;
+
+                if (window.enterFullScreen) window.enterFullScreen();
+                toggleHomeView(false);
+                document.getElementById('examSection').style.display = 'flex';
+                startExam();
+
+                // Reset PDF button UI
+                startPdfBtn.innerText = "Start Exam";
+                startPdfBtn.disabled = false;
+
+                alert("PDF processed successfully! Click Start Exam.");
+
+                // OPTIONAL: auto-start exam
+                // startExam();
+
+            } catch (err) {
+                console.error(err);
+                alert("PDF processing failed");
+            }
+        });
+
+        function convertType(type) {
+            if (!type) return "single";
+            if (type === "MCQ") return "single";
+            if (type === "MSQ") return "multiple";
+            if (type === "NAT") return "numerical";
+            return "single";
+        }
+    }
+
+    
+    document.getElementById('startJsonExam').addEventListener('click', function () {
         if (window.enterFullScreen) window.enterFullScreen();
         toggleHomeView(false);
         document.getElementById('examSection').style.display = 'flex';

@@ -2,10 +2,12 @@ import csv
 import json
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Paths (adjust if needed)
-ANS_FILE = "./uploads/answers.txt"   # your parsed answer file
-IMG_DIR = "./uploads/images"
-OUTPUT_FILE = "./uploads/quiz.json"
+ANS_FILE = os.path.join(BASE_DIR, "uploads", "answers.txt")   # your parsed answer file
+IMG_DIR = os.path.join(BASE_DIR, "uploads", "images")
+OUTPUT_FILE = os.path.join(BASE_DIR, "uploads", "quiz.json")
 
 
 def parse_answer(row):
@@ -18,7 +20,7 @@ def parse_answer(row):
         "id": q_no,
         "type": q_type,
         "marks": marks,
-        "questionImage": f"/uploads/images/Q{q_no}.png"
+        "questionImage": f"/uploads/images/Q.{q_no}.png" # "questionImage": os.path.join(BASE_DIR, "uploads", "images", f"Q.{q_no}.png")
     }
 
     # MCQ

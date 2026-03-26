@@ -2,6 +2,8 @@ import argparse
 import os
 import tabula
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def convert_pdf_to_csv(input_pdf, output_csv=None):
     try:
@@ -10,7 +12,7 @@ def convert_pdf_to_csv(input_pdf, output_csv=None):
         # If output path not provided → generate default
         if output_csv is None:
             # base_name = os.path.splitext(os.path.basename(input_pdf))[0]
-            output_csv = "./uploads/answers.txt"
+            output_csv = os.path.join(BASE_DIR, "uploads", "answers.txt")
             os.makedirs(os.path.dirname(output_csv), exist_ok=True)
 
 
