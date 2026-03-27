@@ -5,19 +5,19 @@ Known Bugs:\
 \
 To launch locally, ensure all python dependencies as mentioned in backend/requirements.txt are installed in your virtual environment.
 
-# Create virtual environment
+### Create virtual environment
 python3 -m venv venv
 
-# Activate virtual environment
+### Activate virtual environment
 source venv/bin/activate
 
-# Upgrade pip
+### Upgrade pip
 pip install --upgrade pip
 
-# Install dependencies
+### Install dependencies
 pip install -r backend/requirements.txt
 
-# Open two terminals
+### Open two terminals
 To launch backend,\
 cd backend/
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
