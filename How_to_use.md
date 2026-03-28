@@ -18,7 +18,7 @@ You don't need to use Git commands if you're not comfortable with them. There ar
 1. Download [GitHub Desktop](https://desktop.github.com/) for free
 2. Install and open GitHub Desktop
 3. Click **"File"** → **"Clone Repository"**
-4. Paste this repository URL: `[https://github.com/Panchajanya-Dey/PDFGATEPYQ.git](https://github.com/Panchajanya-Dey/PDFGATEPYQ.git)`
+4. Paste this repository URL: [https://github.com/Panchajanya-Dey/PDFGATEPYQ.git](https://github.com/Panchajanya-Dey/PDFGATEPYQ.git)
 5. Choose where to save it and click **"Clone"**
 
 ### Step 2: Install Python (If you don't have it)
