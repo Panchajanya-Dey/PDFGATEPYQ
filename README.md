@@ -3,6 +3,8 @@ This project is based on previous work of https://github.com/anish384/GatePYQ.gi
 Known Bugs:<br>
 --- For numerical type questions, answers within range are marked as incorrect if they are not strictly equal to one of the bounds.<br>
 
+**New to GitHub?** Click **[How_to_use.md](How_to_use.md)** for step-by-step instructions.
+
 To launch locally, ensure all python dependencies as mentioned in backend/requirements.txt are installed in your virtual environment.
 
 ### Create virtual environment
