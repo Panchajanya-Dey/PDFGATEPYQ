@@ -22,7 +22,7 @@ pip install -r backend/requirements.txt
 ### Open two terminals
 To launch backend, <br>
 cd backend/ <br>
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+uvicorn main:app --reload
 
 To launch frontend, <br>
 python -m http.server 5500
