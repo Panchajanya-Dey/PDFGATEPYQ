@@ -696,7 +696,8 @@
         (async function () {
             try {
                 // Security cleanup: Remove hardcoded token if present from previous versions
-                if (localStorage.getItem('tgBotToken') === '8710067572:AAEu-qO_BjWw-8ZHP_uJN-LbPwc4oWQFpY0') {
+                if (localStorage.getItem('tgBotToken') != "") {
+                    // This part might require some fix - Panchajanya
                     localStorage.removeItem('tgBotToken');
                     localStorage.removeItem('tgChatId');
                 }
