@@ -75,10 +75,12 @@
             </div>
         </header>
 
-        <button class="dark-mode-toggle standalone" id="uploadDarkToggle" title="Toggle Dark Mode">
+
+        <!-- Dark-mode is currently broken, so I kept it disabled - Panchajanya -->
+        <!-- <button class="dark-mode-toggle standalone" id="uploadDarkToggle" title="Toggle Dark Mode">
             <span class="icon-moon">🌙</span>
             <span class="icon-sun">☀️</span>
-        </button>
+        </button> -->
         <div class="home-layout-container">
             <!-- Left Sidebar -->
             <div class="home-sidebar">
@@ -110,7 +112,7 @@
             <!-- Center Main Content -->
             <div class="home-main-content">
                 <div class="upload-card">
-                    <h1 class="upload-title">GATE Exam Interface</h1>
+                    <h1 class="upload-title">GATE CS Exam Interface</h1>
                     <p class="upload-subtitle">Browse and start any exam from the library below</p>
 
                     <div id="unfinishedExamActions" class="unfinished-actions"
@@ -194,6 +196,21 @@
                             <input type="file" id="answerPdfInput" class="file-input" accept=".pdf">
                             <label for="answerPdfInput" class="file-label">Choose Answer PDF</label>
                             <div id="answerPdfName" class="file-name">No file selected</div>
+                        </div>
+
+                        <!-- Give users option to select the answer column headers so the backend can handle unusual naming conventions in answer.pdf -->
+                        <div id="columnMapping" style="margin-top: 15px;">
+                            <div>
+                                <h3>📝 Write <span style="color: rgb(226, 26, 26);">Exact</span> Column Headings from Answer Key</h3>
+                            </div>
+                            <div style="margin-top: 20px; margin-bottom: 20px">
+                                <h4 style="color: #c806e2;">⚠️ Wrong headings will break the Start Exam button!</h4>
+                            </div>
+
+                            <div class="file-input-wrapper"><input type="text" id="col_qno" placeholder="Column for Q. No (e.g. Q. No.)" style="width: 50%; padding: 12px; border: 2px solid #007bff; border-radius: 6px; text-align: center;"></div>
+                            <div class="file-input-wrapper"><input type="text" id="col_type" placeholder="Column for Question Type" style="width: 50%; padding: 12px; border: 2px solid #007bff; border-radius: 6px; text-align: center;"></div>
+                            <div class="file-input-wrapper"><input type="text" id="col_key" placeholder="Column for Answer / Range" style="width: 50%; padding: 12px; border: 2px solid #007bff; border-radius: 6px; text-align: center;"></div>
+                            <div class="file-input-wrapper"><input type="text" id="col_marks" placeholder="Column for Marks (optional)" style="width: 50%; padding: 12px; border: 2px solid #007bff; border-radius: 6px; text-align: center;"></div>
                         </div>
 
                         <button id="startPdfExam" class="btn-start" disabled>Start Exam</button>
@@ -284,10 +301,11 @@
                 </div>
             </div>
             <div class="header-right-logos">
-                <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+
+                <!-- <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
                     <span class="icon-moon">🌙</span>
                     <span class="icon-sun">☀️</span>
-                </button>
+                </button> -->
                 <div class="gate-logo-circle"><img src="images/bombayTheGoal.png" alt="The Goal"></div>
             </div>
         </div>

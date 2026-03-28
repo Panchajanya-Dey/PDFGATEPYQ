@@ -313,6 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData();
             formData.append("question_pdf", qPdfInput.files[0]);
             formData.append("answer_pdf", aPdfInput.files[0]);
+            formData.append("col_qno", document.getElementById("col_qno").value);
+            formData.append("col_type", document.getElementById("col_type").value);
+            formData.append("col_key", document.getElementById("col_key").value);
+            formData.append("col_marks", document.getElementById("col_marks").value);
 
             try {
                 startPdfBtn.innerText = "Processing...";

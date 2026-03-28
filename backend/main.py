@@ -1,8 +1,8 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.staticfiles import StaticFiles
+from fastapi import Form
 import os
 from fastapi.middleware.cors import CORSMiddleware
-import os
 import shutil
 import subprocess
 import json
@@ -46,7 +46,11 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 @app.post("/upload")
 async def upload_files(
     question_pdf: UploadFile = File(...),
-    answer_pdf: UploadFile = File(...)
+    answer_pdf: UploadFile = File(...),
+    col_qno: str = Form(...),
+    col_type: str = Form(...),
+    col_key: str = Form(...),
+    col_marks: str = Form("")
 ):
     try:
         # Save PDFs inside project/uploads
@@ -72,7 +76,24 @@ async def upload_files(
             cwd=BACKEND_DIR,
             check=True
         )
-        subprocess.run(["python", "generateQuizJson.py"], cwd=BACKEND_DIR, check=True)
+        subprocess.run(
+            [
+                "python",
+                "generateQuizJson.py",
+                col_qno,
+                col_type,
+                col_key,
+                col_marks
+            ],
+            cwd=BACKEND_DIR,
+            check=True
+        )
+        
+        print("Column Mapping:")
+        print("Q No:", col_qno)
+        print("Type:", col_type)
+        print("Key:", col_key)
+        print("Marks:", col_marks)
 
         print("Scripts executed successfully")
 
